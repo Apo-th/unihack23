@@ -1,3 +1,4 @@
 pytesseract
 python-dotenv
 easyocr
+Django==4.1.7
