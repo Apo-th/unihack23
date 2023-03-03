@@ -2,8 +2,15 @@ from PIL import Image
 
 import pytesseract
 
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+TESSERACT_PATH = os.getenv('TESSERACT_PATH')
+
 # If you don't have tesseract executable in your PATH, include the following:
-pytesseract.pytesseract.tesseract_cmd = r'exe_file_path'
+pytesseract.pytesseract.tesseract_cmd = TESSERACT_PATH
 # Example tesseract_cmd = r'C:\Program Files (x86)\Tesseract-OCR\tesseract'
 
 # Simple image to string
