@@ -29,7 +29,13 @@ pip install -r requirements.txt
 TESSERACT_PATH=<your path to tesseract>
 ```
 
-Youre path will be the folder in your tesseract installation exe + teeseract.exe
+Your path will be the folder in your tesseract installation exe + teseract.exe
+
+5. Run the tesseract.py script or run
+
+```
+python tesseract.py
+```
 
 ### With easyocr
 
