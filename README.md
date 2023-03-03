@@ -4,6 +4,12 @@ Surely We Can Edit This Right's unihack 2023 repo
 
 ## Helpful Links
 
+- Pytesseract https://pypi.org/project/pytesseract/ or https://github.com/madmaze/pytesseract
+- unihack https://www.unihack.net/
+- unihack handbook https://unihack.notion.site/2023-Participants-Handbook-5aced37a11934bbcbe6a5071b4d624f6
+- Windows downloader for tesseract https://github.com/UB-Mannheim/tesseract/wiki
+- Easy OCR https://pypi.org/project/easyocr/ or https://github.com/JaidedAI/EasyOCR
+
 ## How to run
 
 ### With Tesseract
