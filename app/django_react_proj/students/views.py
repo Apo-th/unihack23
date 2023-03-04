@@ -10,6 +10,8 @@ def upload_receipt(request):
     if request.method == 'POST':
         requestData = request.data
         serializer = ReceiptSerializer(data=requestData)
+        name = requestData.get("name")
+        image = requestData.get("receipt_img")
         print(requestData.get("name"))
         if serializer.is_valid():
             serializer.save()
