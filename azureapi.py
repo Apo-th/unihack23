@@ -3,9 +3,9 @@ from azure.ai.formrecognizer import DocumentAnalysisClient
 from dotenv import load_dotenv
 import os
 load_dotenv()
-
-import openai
 import json
+import openai
+
 openai.api_key = os.getenv("OPENAI")
 
 endpoint = os.getenv("AZURE_ENDPOINT")
@@ -27,16 +27,21 @@ poller = document_analysis_client.begin_analyze_document("prebuilt-receipt", rec
 #poller = document_analysis_client.begin_analyze_document_from_url("prebuilt-receipt", url)
 receipts = poller.result()
 
-merchant = []
+merchant = None
+date = None
 item_list = []
+total_tax = None
 
-total_tax = []
 for _, receipt in enumerate(receipts.documents):
     receipt_type = receipt.doc_type
 
     merchant_name = receipt.fields.get("MerchantName")
     if merchant_name:
-        merchant += [merchant_name.value]
+        merchant = merchant_name.value
+
+    transaction_date = receipt.fields.get("TransactionDate")
+    if transaction_date:
+        date = transaction_date.value
 
     if receipt.fields.get("Items"):
 
@@ -55,18 +60,25 @@ for _, receipt in enumerate(receipts.documents):
             if item_price:
                 price = item_price.value
 
-            item_list += [(desc, quant, price)]
+            item_list += [{'description':desc, 'quantity':quant, 'total_price':price}]
 
     tax = receipt.fields.get("TotalTax")
     if tax:
-        total_tax += [tax.value]
+        total_tax = tax.value
 
-print('merch')
-print(merchant)
-print('item')
-print(item_list)
-print('tax')
-print(total_tax)
+    total = receipt.fields.get("Total").value
+
+output_dict = {
+    'merchant':merchant,
+    'date':str(date),
+    'items':item_list,
+    'tax':total_tax,
+    'total':total
+}
+
+json_output = json.dumps(output_dict)
+print(json_output)
+
 
 #
 # for idx, receipt in enumerate(receipts.documents):
