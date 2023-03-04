@@ -5,6 +5,23 @@ from rest_framework import status
 from .models import Student
 from .serializers import *
 
+from azure.core.credentials import AzureKeyCredential
+from azure.ai.formrecognizer import DocumentAnalysisClient
+from dotenv import load_dotenv
+import os
+load_dotenv()
+
+import openai
+import json
+openai.api_key = os.getenv("OPENAI")
+
+endpoint = os.getenv("AZURE_ENDPOINT")
+key = os.getenv("AZURE")
+
+document_analysis_client = DocumentAnalysisClient(
+    endpoint=endpoint, credential=AzureKeyCredential(key)
+)
+
 @api_view(['POST'])
 def upload_receipt(request):
     if request.method == 'POST':
@@ -12,12 +29,22 @@ def upload_receipt(request):
         serializer = ReceiptSerializer(data=requestData)
         name = requestData.get("name")
         image = requestData.get("receipt_img")
+        connect_to_azure(image)
         print(requestData.get("name"))
         if serializer.is_valid():
             serializer.save()
             return Response(status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+def connect_to_azure(receipt):
+    url = "https://raw.githubusercontent.com/Azure/azure-sdk-for-python/main/sdk/formrecognizer/azure-ai-formrecognizer/tests/sample_forms/receipt/contoso-receipt.png"
+
+    poller = document_analysis_client.begin_analyze_document("prebuilt-receipt", receipt)
+    #poller = document_analysis_client.begin_analyze_document_from_url("prebuilt-receipt", url)
+    receipts = poller.result()
+    print(receipts.documents)
 
 @api_view(['GET', 'POST'])
 def students_list(request):
