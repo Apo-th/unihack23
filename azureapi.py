@@ -6,78 +6,155 @@ load_dotenv()
 import json
 import openai
 
-openai.api_key = os.getenv("OPENAI")
+def extract_json(img_path):
+    openai.api_key = os.getenv("OPENAI")
 
-endpoint = os.getenv("AZURE_ENDPOINT")
-key = os.getenv("AZURE")
+    endpoint = os.getenv("AZURE_ENDPOINT")
+    key = os.getenv("AZURE")
 
-document_analysis_client = DocumentAnalysisClient(
-    endpoint=endpoint, credential=AzureKeyCredential(key)
-)
+    document_analysis_client = DocumentAnalysisClient(
+        endpoint=endpoint, credential=AzureKeyCredential(key)
+    )
 
-# Need url for image
-# sample document
-url = "https://raw.githubusercontent.com/Azure/azure-sdk-for-python/main/sdk/formrecognizer/azure-ai-formrecognizer/tests/sample_forms/receipt/contoso-receipt.png"
+    # Need url for image
+    # sample document
+    url = "https://raw.githubusercontent.com/Azure/azure-sdk-for-python/main/sdk/formrecognizer/azure-ai-formrecognizer/tests/sample_forms/receipt/contoso-receipt.png"
 
-with open("jon.jpg", "rb") as fd:
-    receipt = fd.read()
+    with open(img_path, "rb") as fd:
+        receipt = fd.read()
 
 
-poller = document_analysis_client.begin_analyze_document("prebuilt-receipt", receipt)
-#poller = document_analysis_client.begin_analyze_document_from_url("prebuilt-receipt", url)
-receipts = poller.result()
+    poller = document_analysis_client.begin_analyze_document("prebuilt-receipt", receipt)
+    #poller = document_analysis_client.begin_analyze_document_from_url("prebuilt-receipt", url)
+    receipts = poller.result()
 
-merchant = None
-date = None
-item_list = []
-total_tax = None
+    merchant = None
+    date = None
+    item_list = []
+    total_tax = None
 
-for _, receipt in enumerate(receipts.documents):
-    receipt_type = receipt.doc_type
+    for _, receipt in enumerate(receipts.documents):
+        receipt_type = receipt.doc_type
 
-    merchant_name = receipt.fields.get("MerchantName")
-    if merchant_name:
-        merchant = merchant_name.value
+        merchant_name = receipt.fields.get("MerchantName")
+        if merchant_name:
+            merchant = merchant_name.value
 
-    transaction_date = receipt.fields.get("TransactionDate")
-    if transaction_date:
-        date = transaction_date.value
+        transaction_date = receipt.fields.get("TransactionDate")
+        if transaction_date:
+            date = transaction_date.value
 
-    if receipt.fields.get("Items"):
+        if receipt.fields.get("Items"):
 
-        for idx, item in enumerate(receipt.fields.get("Items").value):
-            desc, quant, price = 'na', 'na', 'na'
+            for idx, item in enumerate(receipt.fields.get("Items").value):
+                desc, quant, price = 'na', 'na', 'na'
 
-            item_desc = item.value.get("Description")
-            if item_desc:
-                desc =item_desc.value
+                item_desc = item.value.get("Description")
+                if item_desc:
+                    desc =item_desc.value
 
-            item_quant = item.value.get("Quantity")
-            if item_quant:
-                quant = item_quant.value
+                item_quant = item.value.get("Quantity")
+                if item_quant:
+                    quant = item_quant.value
 
-            item_price = item.value.get("TotalPrice")
-            if item_price:
-                price = item_price.value
+                item_price = item.value.get("TotalPrice")
+                if item_price:
+                    price = item_price.value
 
-            item_list += [{'description':desc, 'quantity':quant, 'total_price':price}]
+                item_list += [{'description':desc, 'quantity':quant, 'total_price':price}]
 
-    tax = receipt.fields.get("TotalTax")
-    if tax:
-        total_tax = tax.value
+        tax = receipt.fields.get("TotalTax")
+        if tax:
+            total_tax = tax.value
 
-    total = receipt.fields.get("Total").value
+        total = receipt.fields.get("Total").value
 
-output_dict = {
-    'merchant':merchant,
-    'date':str(date),
-    'items':item_list,
-    'tax':total_tax,
-    'total':total
-}
+    output_dict = {
+        'merchant':merchant,
+        'date':str(date),
+        'items':item_list,
+        'tax':total_tax,
+        'total':total
+    }
 
-json_output = json.dumps(output_dict)
-print(json_output)
+    json_output = json.dumps(output_dict)
+    return(print(json_output))
+
+extract_json('jon.jpg')
+
+
+# openai.api_key = os.getenv("OPENAI")
+
+# endpoint = os.getenv("AZURE_ENDPOINT")
+# key = os.getenv("AZURE")
+
+# document_analysis_client = DocumentAnalysisClient(
+#     endpoint=endpoint, credential=AzureKeyCredential(key)
+# )
+
+# # Need url for image
+# # sample document
+# url = "https://raw.githubusercontent.com/Azure/azure-sdk-for-python/main/sdk/formrecognizer/azure-ai-formrecognizer/tests/sample_forms/receipt/contoso-receipt.png"
+
+# with open("jon.jpg", "rb") as fd:
+#     receipt = fd.read()
+
+
+# poller = document_analysis_client.begin_analyze_document("prebuilt-receipt", receipt)
+# #poller = document_analysis_client.begin_analyze_document_from_url("prebuilt-receipt", url)
+# receipts = poller.result()
+
+# merchant = None
+# date = None
+# item_list = []
+# total_tax = None
+
+# for _, receipt in enumerate(receipts.documents):
+#     receipt_type = receipt.doc_type
+
+#     merchant_name = receipt.fields.get("MerchantName")
+#     if merchant_name:
+#         merchant = merchant_name.value
+
+#     transaction_date = receipt.fields.get("TransactionDate")
+#     if transaction_date:
+#         date = transaction_date.value
+
+#     if receipt.fields.get("Items"):
+
+#         for idx, item in enumerate(receipt.fields.get("Items").value):
+#             desc, quant, price = 'na', 'na', 'na'
+
+#             item_desc = item.value.get("Description")
+#             if item_desc:
+#                 desc =item_desc.value
+
+#             item_quant = item.value.get("Quantity")
+#             if item_quant:
+#                 quant = item_quant.value
+
+#             item_price = item.value.get("TotalPrice")
+#             if item_price:
+#                 price = item_price.value
+
+#             item_list += [{'description':desc, 'quantity':quant, 'total_price':price}]
+
+#     tax = receipt.fields.get("TotalTax")
+#     if tax:
+#         total_tax = tax.value
+
+#     total = receipt.fields.get("Total").value
+
+# output_dict = {
+#     'merchant':merchant,
+#     'date':str(date),
+#     'items':item_list,
+#     'tax':total_tax,
+#     'total':total
+# }
+
+# json_output = json.dumps(output_dict)
+# print(json_output)
 
 
 #
