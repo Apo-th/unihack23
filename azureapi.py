@@ -19,16 +19,56 @@ document_analysis_client = DocumentAnalysisClient(
 # sample document
 url = "https://raw.githubusercontent.com/Azure/azure-sdk-for-python/main/sdk/formrecognizer/azure-ai-formrecognizer/tests/sample_forms/receipt/contoso-receipt.png"
 
-with open("test.png", "rb") as fd:
+with open("jon.jpg", "rb") as fd:
     receipt = fd.read()
 
 
 poller = document_analysis_client.begin_analyze_document("prebuilt-receipt", receipt)
 #poller = document_analysis_client.begin_analyze_document_from_url("prebuilt-receipt", url)
 receipts = poller.result()
-print(receipts.documents)
 
+merchant = []
+item_list = []
 
+total_tax = []
+for _, receipt in enumerate(receipts.documents):
+    receipt_type = receipt.doc_type
+
+    merchant_name = receipt.fields.get("MerchantName")
+    if merchant_name:
+        merchant += [merchant_name.value]
+
+    if receipt.fields.get("Items"):
+
+        for idx, item in enumerate(receipt.fields.get("Items").value):
+            desc, quant, price = 'na', 'na', 'na'
+
+            item_desc = item.value.get("Description")
+            if item_desc:
+                desc =item_desc.value
+
+            item_quant = item.value.get("Quantity")
+            if item_quant:
+                quant = item_quant.value
+
+            item_price = item.value.get("TotalPrice")
+            if item_price:
+                price = item_price.value
+
+            item_list += [(desc, quant, price)]
+
+    tax = receipt.fields.get("TotalTax")
+    if tax:
+        total_tax += [tax.value]
+
+print('merch')
+print(merchant)
+print('item')
+print(item_list)
+print('tax')
+print(total_tax)
+
+#
 # for idx, receipt in enumerate(receipts.documents):
 #     print("--------Recognizing receipt #{}--------".format(idx + 1))
 #     receipt_type = receipt.doc_type
@@ -101,7 +141,7 @@ print(receipts.documents)
 #     print("--------------------------------------")
 
 # completion = openai.ChatCompletion.create(
-#   model="gpt-3.5-turbo", 
+#   model="gpt-3.5-turbo",
 #   messages=
 #   [
 #     {"role": "system", "content": "You are a rude, condescending financial advisor who gives terrible financial advice to a customer based on their spending habits."},
