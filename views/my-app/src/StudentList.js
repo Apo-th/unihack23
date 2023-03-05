@@ -5,7 +5,7 @@ class StudentList extends Component {
     render() {
       const students = this.props.students;
       return (
-        <Table dark>
+        <Table light>
           <thead>
             <tr>
               <th>Name</th>
