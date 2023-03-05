@@ -2,3 +2,4 @@
 **/__pycache__
 **/pyvenv.cfg
 node_modules
+logrocket_env
