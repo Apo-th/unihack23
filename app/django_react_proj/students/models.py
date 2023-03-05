@@ -8,8 +8,6 @@ class Student(models.Model):
     registrationDate = models.DateField("Registration Date", auto_now_add=True)
 
     def __str__(self):
-<<<<<<< HEAD
-=======
         return self.name
     
 class Receipt(models.Model):
@@ -17,5 +15,15 @@ class Receipt(models.Model):
     receipt_img = models.ImageField(upload_to='images/')
 
     def __str__(self):
->>>>>>> db97c1d94aed6e97d57c356821efbbb52d2174a8
+        return self.name
+    
+class Spending(models.Model):
+    merchant = models.CharField(max_length=50)
+    date = models.DateField("Purchase Date")
+    description = models.CharField(max_length=100)
+    quantity = models.IntegerField()
+    total_price = models.DecimalField(max_digits=7, decimal_places=2)
+    category = models.CharField(max_length=20)
+
+    def __str__(self):
         return self.name
