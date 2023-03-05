@@ -2,7 +2,27 @@
 
 Surely We Can Edit This Right's unihack 2023 repo
 
-## Helpful Links
+## How to run
+
+1. run
+
+```
+pip install -r Requirements.txt
+python -m venv logrocket_env
+logrocket_env/Scripts/activate
+```
+
+2. Inside your virtual environment run
+
+```
+python manage.py runserver
+```
+
+This will start the django server so you can start hitting the APIs
+
+# ARCHIVE
+
+### Helpful Links
 
 - Pytesseract https://pypi.org/project/pytesseract/ or https://github.com/madmaze/pytesseract
 - unihack https://www.unihack.net/
@@ -10,9 +30,9 @@ Surely We Can Edit This Right's unihack 2023 repo
 - Windows downloader for tesseract https://github.com/UB-Mannheim/tesseract/wiki
 - Easy OCR https://pypi.org/project/easyocr/ or https://github.com/JaidedAI/EasyOCR
 
-## How to run
+### How to run
 
-### With Tesseract
+#### With Tesseract
 
 1. install tesseract https://github.com/UB-Mannheim/tesseract/wiki
 
@@ -37,7 +57,7 @@ Your path will be the folder in your tesseract installation exe + teseract.exe
 python tesseract.py
 ```
 
-### With easyocr
+#### With easyocr
 
 1. Run
 
@@ -53,6 +73,6 @@ python easyocr1.py
 
 This will read from the jon.jpg receipt
 
-## Diagrams and pictures
+### Diagrams and pictures
 
 ![Alt text](/storyboard.jpg?raw=true "Title")
