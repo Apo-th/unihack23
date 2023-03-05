@@ -20,6 +20,18 @@ python manage.py runserver
 
 This will start the django server so you can start hitting the APIs
 
+## How it works
+
+User takes a photo or uploads photo of receipt
+Frontend will make API call to backend
+Backend makes API call to Azure OCR which will return the contents of the receipt in a text format
+Backend will analyse the returned data and add it to the db
+The frontend can then make another API to read the purchase info from the db
+
+## Diagrams and pictures
+
+![Alt text](/storyboard.jpg?raw=true "Title")
+
 # ARCHIVE
 
 ### Helpful Links
@@ -72,7 +84,3 @@ python easyocr1.py
 ```
 
 This will read from the jon.jpg receipt
-
-### Diagrams and pictures
-
-![Alt text](/storyboard.jpg?raw=true "Title")
