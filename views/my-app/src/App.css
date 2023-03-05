@@ -17,6 +17,7 @@
 .App-header {
   background-color: #282c34;
   height: 8vh;
+  color: white;
 }
 .App-body {
   background-color: #6f7785;
@@ -42,11 +43,11 @@
   }
 }
 
-/* I want to make the theme off the offcanvas match the navbar which is using the bootstrap dark theme */
 #offcanvasNavbar {
   background-color: hwb(210 14% 83%);
   color: #fff;
   fill: #fff;
+  
 }
 #ochead{
   color: #fff;
@@ -60,6 +61,7 @@
   display: flex;
   align-items: center;
   gap : 1rem;
+  color:#fff;
 }
 #navbtn {
   display: flex;

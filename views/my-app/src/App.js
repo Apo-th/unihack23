@@ -1,8 +1,8 @@
+import 'bootstrap/dist/css/bootstrap.min.css'
 import logo from './logo.svg';
 import './App.css';
 import React from 'react';
 import Sidebar from './Sidebar'
-import 'bootstrap/dist/css/bootstrap.min.css'
 import LoginModal from './LoginModal';
 import {Button} from 'react-bootstrap';
 import AdvisorCard from './AdvisorCard';
@@ -16,10 +16,9 @@ function App() {
   return (
     <BrowserRouter>
 
-    <div className='App'>
-      <script src="holder.js"></script>
+    <div>
       <div className="App-header">
-        <Sidebar/>
+      <Sidebar/>
       </div>
       <div className='App-body'>
         <Routes>

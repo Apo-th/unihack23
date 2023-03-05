@@ -11,7 +11,7 @@ const Sidebar = () => {
         <>
         <Navbar bg="dark" variant="dark" expand="false" collapseOnSelect>
             <Container fluid>
-                <Navbar.Toggle aria-controls="offcanvasNavbar" onClick={toggleOffcanvas} />
+                <Navbar.Toggle aria-controls="offcanvasNavbar" onClick={toggleOffcanvas}/>
                 <Navbar.Brand href="#home" id="offcanvasNavbarLabel"><CashCoin/> Expense Mate</Navbar.Brand>
                 <Navbar.Offcanvas id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel" placement="start" show={show}>
                     <Offcanvas.Header>
