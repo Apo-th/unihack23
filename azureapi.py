@@ -16,6 +16,10 @@ def extract_json(img_path):
         endpoint=endpoint, credential=AzureKeyCredential(key)
     )
 
+    clothing = ['CARRY BAG -RE-USABLE I', "ESS CREW SWEAT FL", "ESS FZ HOODY FL",
+                "FERRARI FANWEAR LAPS", "FORMSTRIPE SOCCER PA"]
+    food = ["Whopper JR.", "Ice Lemon Tea(L)", "Coke (L)", "Americano(L)", "Lrg Capp"]
+
     # Need url for image
     # sample document
     url = "https://raw.githubusercontent.com/Azure/azure-sdk-for-python/main/sdk/formrecognizer/azure-ai-formrecognizer/tests/sample_forms/receipt/contoso-receipt.png"
@@ -32,7 +36,7 @@ def extract_json(img_path):
     date = None
     item_list = []
     total_tax = None
-
+    category = None
     for _, receipt in enumerate(receipts.documents):
         receipt_type = receipt.doc_type
 
@@ -51,7 +55,8 @@ def extract_json(img_path):
 
                 item_desc = item.value.get("Description")
                 if item_desc:
-                    desc =item_desc.value
+                    desc =item_desc.value.split("\n")[0]
+
 
                 item_quant = item.value.get("Quantity")
                 if item_quant:
@@ -61,7 +66,13 @@ def extract_json(img_path):
                 if item_price:
                     price = item_price.value
 
-                item_list += [{'description':desc, 'quantity':quant, 'total_price':price}]
+                if desc in clothing:
+                    category = "clothing"
+                if desc in food:
+                    category = "food"
+
+                item_list += [{'description':desc, 'quantity':quant,
+                               'total_price':price, "category": category}]
 
         tax = receipt.fields.get("TotalTax")
         if tax:
@@ -79,9 +90,6 @@ def extract_json(img_path):
 
     json_output = json.dumps(output_dict)
     return(print(json_output))
-
-extract_json('jon.jpg')
-
 
 # openai.api_key = os.getenv("OPENAI")
 
