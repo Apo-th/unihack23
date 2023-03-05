@@ -8,16 +8,13 @@ import {Button} from 'react-bootstrap';
 import AdvisorCard from './AdvisorCard';
 import AtAGlanceCard from './AtAGlanceCard';
 import {Camera} from 'react-bootstrap-icons';
-import HolderJS from 'holderjs';
 import Advisor from './Advisor';
 
 
 function App() {
   return (
     <div className='App'>
-      <script src="holder.js"></script>
       <div className="App-header">
-
         <Sidebar/>
       </div>
       <div className='App-body'>
