@@ -5,6 +5,23 @@ from rest_framework import status
 from .models import Student
 from .serializers import *
 
+<<<<<<< HEAD
+=======
+@api_view(['POST'])
+def upload_receipt(request):
+    if request.method == 'POST':
+        requestData = request.data
+        serializer = ReceiptSerializer(data=requestData)
+        name = requestData.get("name")
+        image = requestData.get("receipt_img")
+        print(requestData.get("name"))
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+>>>>>>> develop
 @api_view(['GET', 'POST'])
 def students_list(request):
     if request.method == 'GET':
