@@ -3,7 +3,6 @@ import { Button, Form, FormGroup, Input, Label } from "reactstrap";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from ".//constants";
-
 class NewStudentForm extends React.Component {
   state = {
     pk: 0,
