@@ -18,51 +18,23 @@ import json
 def upload_receipt(request):
     if request.method == 'POST':
         requestData = request.data
-        serializer = ReceiptSerializer(data=requestData)
-        name = requestData.get("name")
         image = requestData.get("receipt_img")
-        extract_json(image)
-        print(requestData.get("name"))
+        response = json.loads(extract_json(image))
 
-        return Response(status=status.HTTP_201_CREATED)
+        serializer = SpendingSerializer(data=response, many=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(response)
 
-        # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-@api_view(['GET', 'POST'])
-def students_list(request):
+@api_view(['GET'])
+def get_spending(request):
     if request.method == 'GET':
-        data = Student.objects.all()
-
-        serializer = StudentSerializer(data, context={'request': request}, many=True)
+        data = Spending.objects.all()
+        serializer = SpendingSerializer(data, context={'request', request}, many=True)
 
         return Response(serializer.data)
-
-    elif request.method == 'POST':
-        serializer = StudentSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(status=status.HTTP_201_CREATED)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-@api_view(['PUT', 'DELETE'])
-def students_detail(request, pk):
-    try:
-        student = Student.objects.get(pk=pk)
-    except Student.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-    if request.method == 'PUT':
-        serializer = StudentSerializer(student, data=request.data,context={'request': request})
-        if serializer.is_valid():
-            serializer.save()
-            return Response(status=status.HTTP_204_NO_CONTENT)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    elif request.method == 'DELETE':
-        student.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
     
 def load_values():
     load_dotenv()
@@ -148,6 +120,17 @@ def extract_json(receipt):
         'total':total
     }
 
-    json_output = json.dumps(output_dict)
+    json_output = json.dumps(json_flat(output_dict))
     print(json_output)
     return(json_output)
+
+def json_flat(in_dict):
+    item_list = []
+    for i in in_dict.get("items"):
+        item = {"merchant": in_dict.get("merchant"), "date": in_dict.get("date"),
+                "description": i.get("description"), "quantity": i.get("quantity"),
+                "total_price": i.get("total_price"), "category": i.get("category")}
+
+        item_list.append(item)
+
+    return item_list

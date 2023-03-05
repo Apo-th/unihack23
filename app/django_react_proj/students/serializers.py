@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Student, Receipt
+from .models import Student, Receipt, Spending
 
 class StudentSerializer(serializers.ModelSerializer):
 
@@ -12,3 +12,8 @@ class ReceiptSerializer(serializers.ModelSerializer):
     class Meta:
         model = Receipt 
         fields = ('name', 'receipt_img')
+
+class SpendingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Spending
+        fields = ('merchant', 'date', 'description', 'quantity', 'total_price', 'category')
