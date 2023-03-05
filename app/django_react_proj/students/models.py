@@ -8,14 +8,4 @@ class Student(models.Model):
     registrationDate = models.DateField("Registration Date", auto_now_add=True)
 
     def __str__(self):
-<<<<<<< HEAD
-=======
-        return self.name
-    
-class Receipt(models.Model):
-    name = models.CharField(max_length=50)
-    receipt_img = models.ImageField(upload_to='images/')
-
-    def __str__(self):
->>>>>>> develop
         return self.name
