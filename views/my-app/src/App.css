@@ -1,0 +1,103 @@
+.App {
+  text-align: center;
+  background-color: #282c34;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  height: 8vh;
+}
+.App-body {
+  background-color: #6f7785;
+  height: 92vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* I want to make the theme off the offcanvas match the navbar which is using the bootstrap dark theme */
+#offcanvasNavbar {
+  background-color: hwb(210 14% 83%);
+  color: #fff;
+  fill: #fff;
+}
+#ochead{
+  color: #fff;
+  fill: #fff;
+}
+.btn-close {
+  color: #fff;
+  opacity: .5;
+}
+#offcanvasNavbarLabel {
+  display: flex;
+  align-items: center;
+  gap : 1rem;
+}
+#navbtn {
+  display: flex;
+  align-items: center;
+  gap : 1rem;
+  justify-content: center;
+  font-size : 1.5rem;
+  padding: 20px
+}
+.advisor-card {
+  display: flex;
+  align-items: center;
+  gap : 1rem;
+  justify-content: center;
+  padding: 0;
+  width: 90%;
+  height: 50%;
+  margin: 10px auto;
+}
+.snap {
+  display: flex;
+  align-items: center;
+}
+.ataglance-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  width: 90%;
+  margin: 5px auto;
+}
+.advisor {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  width: 90%;
+  min-height: 70vh;
+  margin: 5px auto;
+}
+
