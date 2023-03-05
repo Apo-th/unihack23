@@ -37,7 +37,11 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
+<<<<<<<< HEAD:app/virtual_env/Scripts/activate
+VIRTUAL_ENV="C:\Users\jeffs\Side Quests\Unihack-2023\unihack23\app\virtual_env"
+========
 VIRTUAL_ENV="C:\Users\saito\Documents\Git\unihack23\app\logrocket_env"
+>>>>>>>> develop:app/logrocket_env/Scripts/activate
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
@@ -54,6 +58,9 @@ fi
 
 if [ -z "${VIRTUAL_ENV_DISABLE_PROMPT:-}" ] ; then
     _OLD_VIRTUAL_PS1="${PS1:-}"
+<<<<<<<< HEAD:app/virtual_env/Scripts/activate
+    PS1="(virtual_env) ${PS1:-}"
+========
     if [ "x(logrocket_env) " != x ] ; then
 	PS1="(logrocket_env) ${PS1:-}"
     else
@@ -65,6 +72,7 @@ if [ -z "${VIRTUAL_ENV_DISABLE_PROMPT:-}" ] ; then
         PS1="(`basename \"$VIRTUAL_ENV\"`)$PS1"
     fi
     fi
+>>>>>>>> develop:app/logrocket_env/Scripts/activate
     export PS1
 fi
 

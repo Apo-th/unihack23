@@ -5,6 +5,8 @@ from rest_framework import status
 from .models import Student
 from .serializers import *
 
+<<<<<<< HEAD
+=======
 @api_view(['POST'])
 def upload_receipt(request):
     if request.method == 'POST':
@@ -19,6 +21,7 @@ def upload_receipt(request):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+>>>>>>> develop
 @api_view(['GET', 'POST'])
 def students_list(request):
     if request.method == 'GET':
