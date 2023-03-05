@@ -1,8 +1,4 @@
 **/.env
 **/__pycache__
-<<<<<<< HEAD
 **/pyvenv.cfg
 node_modules
-=======
-**/pyvenv.cfg
->>>>>>> develop
