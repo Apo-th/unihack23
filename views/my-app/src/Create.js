@@ -1,132 +1,97 @@
-import NewStudentForm from "./NewStudentForm";
 import React from "react";
 import { useState } from "react";
-import {Col, Button, Form, FormGroup, Input, Label, FormText } from "reactstrap";
-import { API_URL } from "./constants";
+import { Col, Form, FormGroup, Input, Label, FormText } from "reactstrap";
+import { Button, Card } from "react-bootstrap";
+import { API_URL_RECEIPT } from "./constants";
 import axios from "axios";
 import Webcam from "react-webcam";
-import WebcamCapture from "./WebcamCapture";
 
 const Create = () => {
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [document, setDocument] = useState("");
-    const [phone, setPhone] = useState("");
-    const [photo, setPhoto] = useState(null);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [document, setDocument] = useState("");
+  const [phone, setPhone] = useState("");
+  const [photo, setPhoto] = useState(null);
+  const [pendingPhoto, setPendingPhoto] = useState(false);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        axios({
-            method: 'post',
-            url: API_URL,
-            data: {
-                pk: 0,
-                name: name,
-                email: email,
-                document: document,
-                phone: phone
-            }
-        })
+  // Handle POST request
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios({
+      method: 'post',
+      url: API_URL_RECEIPT,
+      data: {
+        pk: 0,
+        name: name,
+        email: email,
+        document: document,
+        phone: phone
+      }
+    })
+  }
 
-        
-    }
+  // Screenshot dimensions
+  const videoConstraints = {
+    width: 240,
+    height: 240,
+    facingMode: "user"
+  };
 
-            // Screenshot
-            const videoConstraints = {
-                width: 1280,
-                height: 720,
-                facingMode: "user"
-              };
+  function handlePhoto(e) {
+    console.log(e.target.files);
+    setPhoto(URL.createObjectURL(e.target.files[0]));
+    setPendingPhoto(true);
+  }
 
-              function handlePhoto(e) {
-                console.log(e.target.files);
-                setPhoto(URL.createObjectURL(e.target.files[0]));
-            }
-            
-            return (
-        <div className="create">
-            <h2>Add a New Student</h2>
-            <Form onSubmit={handleSubmit}>
+  return (
+    <>
+      <Card className="bg-dark text-white create">
+        <Form onSubmit={handleSubmit}>
+        <h2>Add a receipt</h2>
+            <FormGroup >
+              <Label for="exampleFile" sm={2}>File</Label>
+              <Col sm={10}>
+                <Input type="file" name="photo"
+                  onChange={handlePhoto}
+                />
+                <FormText color="muted">
+                  Add a photo from your files
+                </FormText>
                 <FormGroup>
-                    <Label for="name">Name:</Label>
-                    <Input
-                        type="text"
-                        name="name"
-                        onChange={(e) => setName(e.target.value)}
-                        value={name}
-                    />
+                <Webcam
+                  audio={false}
+                  height={240}
+                  screenshotFormat="image/jpeg"
+                  width={240}
+                  videoConstraints={videoConstraints}
+                >
+                  {({ getScreenshot }) => (
+                    <Button className="primary"
+                      onClick={
+                        (e) => {
+                          const imageSrc = getScreenshot()
+                          setPhoto(imageSrc)
+                          setPendingPhoto(true)
+                        }}
+                    >
+                      Capture photo
+                    </Button>
+                  )}
+                </Webcam>
                 </FormGroup>
-                <FormGroup>
-                    <Label for="email">Email:</Label>
-                    <Input
-                        type="email"
-                        name="email"
-                        onChange={(e) => setEmail(e.target.value)}
-                        value={email}
-                    />
-                </FormGroup>
-                <FormGroup>
-                    <Label for="document">Document:</Label>
-                    <Input
-                        type="text"
-                        name="document"
-                        onChange={(e) => setDocument(e.target.value)}
-                        value={document}
-                    />
-                </FormGroup>
-                <FormGroup>
-                    <Label for="phone">Phone:</Label>
-                    <Input
-                        type="text"
-                        name="phone"
-                        onChange={(e) => setPhone(e.target.value)}
-                        value={phone}
-                    />
-                </FormGroup>
-                <FormGroup row>
-          <Label for="exampleFile" sm={2}>File</Label>
-          <Col sm={10}>
-            <Input type="file" name="photo" 
-            onChange={handlePhoto}
-            />
-            <FormText color="muted">
-              This is some placeholder block-level help text for the above input.
-              It's a bit lighter and easily wraps to a new line.
-            </FormText>
-            <Webcam
-      audio={false}
-      height={720}
-      screenshotFormat="image/jpeg"
-      width={720}
-      videoConstraints={{
-        width: 720,
-        height: 720,
-        facingMode: "user"
-      }}
-    >
-      {({ getScreenshot }) => (
-        <button
-          onClick={
-            (e) => {
-                const imageSrc = getScreenshot()
-                setPhoto(imageSrc)
-          }}
-        >
-          Capture photo
-        </button>
-      )}
-    </Webcam>
-          </Col>
-        </FormGroup>
-                <Button>Send</Button>
-            </Form>
-        <div className="example">
-        <div>
-            <img className="preview" src={photo} alt="" />
-          </div>
-        </div>
-        </div>
-    );
+              </Col>
+            </FormGroup>
+            <Button className="secondary" type="submit">Send</Button>
+        </Form>
+      </Card>
+      <Card className="bg-dark text-white photo">
+        {!pendingPhoto && <h2>Pending Photo:</h2>}
+        {pendingPhoto && <h2>Photo Preview:</h2>}
+          {pendingPhoto && <img className="preview" src={photo} alt="" width="240" height="240"/> }
+      </Card>
+
+    </>
+  );
 }
 
 export default Create;

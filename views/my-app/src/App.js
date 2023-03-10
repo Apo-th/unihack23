@@ -11,6 +11,7 @@ import {BrowserEdge, Camera} from 'react-bootstrap-icons';
 import Advisor from './Advisor';
 import {BrowserRouter, Routes, Route, Link } from "react-router-dom"
 import Home from './Home';
+import Create from './Create';
 
 function App() {
   return (
@@ -23,7 +24,7 @@ function App() {
       <div className='App-body'>
         <Routes>
         <Route path="/advisor" element={<Advisor />}></Route>
-        <Route path="/scan" element={<Home />}></Route>
+        <Route path="/create" element={<Create />}></Route>
         <Route path="/analytics" element={<Home />}></Route>
         <Route path="/" element={<Home />}></Route>
 

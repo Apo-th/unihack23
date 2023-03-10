@@ -23,7 +23,7 @@ const Sidebar = () => {
                             <Nav.Link id="navbtn" as={NavLink} to='/'> <House size="30"/> Home</Nav.Link>
                             <Nav.Link id="navbtn" as={NavLink} to='/advisor'><Chat size="30"/>           Advisor</Nav.Link>
                             <Nav.Link id="navbtn" as={NavLink} to='/analytics'><BarChartLine size="30"/>           Analytics</Nav.Link>
-                            <Nav.Link id="navbtn" as={NavLink} to='/scan'><Camera size="30"/>         Scan</Nav.Link>
+                            <Nav.Link id="navbtn" as={NavLink} to='/create'><Camera size="30"/>         Scan</Nav.Link>
                         </Nav>
                     </Offcanvas.Body>
                 </Navbar.Offcanvas>
