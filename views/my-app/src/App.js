@@ -30,7 +30,7 @@ function App() {
 
         </Routes>
       </div>
-      <Button variant="dark" size='lg' href="#scan"> <Camera size="30" className="snap"/></Button>
+      {/* <Button variant="dark" size='lg' href="#scan"> <Camera size="30" className="snap"/></Button> */}
     </div>
     </BrowserRouter>
 

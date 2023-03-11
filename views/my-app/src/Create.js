@@ -7,27 +7,23 @@ import axios from "axios";
 import Webcam from "react-webcam";
 
 const Create = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [document, setDocument] = useState("");
-  const [phone, setPhone] = useState("");
   const [photo, setPhoto] = useState(null);
   const [pendingPhoto, setPendingPhoto] = useState(false);
 
   // Handle POST request
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios({
-      method: 'post',
-      url: API_URL_RECEIPT,
-      data: {
-        pk: 0,
-        name: name,
-        email: email,
-        document: document,
-        phone: phone
-      }
+    const formData = new FormData();
+    formData.append('image', photo);
+    axios.post(API_URL_RECEIPT, {"cumMan" : "cumCum"}, 
+      {headers: {'Content-Type': 'application/json'}})
+    .then((response) => {
+      console.log(response);
     })
+    .catch((error) => {
+      console.log(error);
+    })
+    
   }
 
   // Screenshot dimensions
@@ -38,8 +34,7 @@ const Create = () => {
   };
 
   function handlePhoto(e) {
-    console.log(e.target.files);
-    setPhoto(URL.createObjectURL(e.target.files[0]));
+    setPhoto(e.target.files[0]);
     setPendingPhoto(true);
   }
 

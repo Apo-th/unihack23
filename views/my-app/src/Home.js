@@ -51,6 +51,9 @@ const Home = () => {
         display: true,
         text: 'Chart.js Bar Chart',
       },
+      layout: {
+        padding: 20
+    },
     },
   };
 
@@ -87,12 +90,12 @@ const Home = () => {
   })
 
   return (
-    // <Card className="bg-dark text-white advisor-card" variant="dark">
-    //   <Card.Title>A glance at your financials:</Card.Title>
-    //   <Card.Body>
-      <Bar options={options} data={data}/>
-    //   </Card.Body>
-    // </Card>
+    <Card className="bg-dark text-white graph-card" variant="dark">
+      <Card.Title>A glance at your financials:</Card.Title>
+      <Card.Body className="graph-body">
+        <Bar options={options} data={data} />
+      </Card.Body>
+    </Card>
 
   );
 }

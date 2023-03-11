@@ -104,3 +104,19 @@
 }
 
 
+.graph-card {
+  display: flex;
+  align-items: center;
+  gap : 1rem;
+  justify-content: center;
+  padding: 0;
+  width: 90%;
+  height: 80%;
+  margin: 10px auto;
+}
+
+.graph-body {
+  width:90%;
+  height: 80%;
+  display: block;
+}
